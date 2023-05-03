@@ -1,0 +1,11 @@
+{
+    "id": "scala",
+    "version": "1.0.0",
+    "name": "Scala",
+    "description": "Scala template for local scala development in vscode.",
+    "documentationURL": "https://github.com/devcontainers/template-starter/tree/main/src/hello",
+    "licenseURL": "https://github.com/devcontainers/template-starter/blob/main/LICENSE",
+    "platforms": [
+        "Any"
+    ]
+}

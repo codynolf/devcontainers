@@ -1,0 +1,29 @@
+{
+	"name": "Scala",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"INSTALL_SBT": "true"
+		}
+	},
+	"customizations":
+    {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+		        "scalameta.metals",
+                "ms-azuretools.vscode-docker",
+                "ms-vscode-remote.remote-containers",
+                "scala-lang.scala",
+                "ms-vscode-remote.remote-wsl"
+            ]
+        }
+    },
+    "postCreateCommand": "java -version && sbt -version && docker --version && scala -version"
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	//"postCreateCommand": "java -version",
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	//"remoteUser": "vscode"
+}
