@@ -3,7 +3,11 @@
 
 Scala template for local scala development in vscode.
 
+## Options
 
+| Options Id | Description | Type | Default Value |
+|-----|-----|-----|-----|
+| projectname | Name of the new scala project. | string | hello-world |
 
 
 
