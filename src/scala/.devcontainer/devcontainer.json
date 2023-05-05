@@ -19,7 +19,7 @@
             ]
         }
     },
-    "postCreateCommand": "java -version && sbt -version && docker --version && scala -version && sbt new codynolf/scala-starter.g8 --name='${templateOption:projectname}' && echo '${templateOption:projectname}'"
+    "postCreateCommand": "java -version && sbt -version && && scala -version && sbt new codynolf/scala-starter.g8 --name='${templateOption:projectname}' && echo '${templateOption:projectname}'"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
