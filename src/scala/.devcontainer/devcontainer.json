@@ -3,27 +3,30 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"INSTALL_SBT": "true"
+			"INSTALL_SBT": "true",
+			"INSTALL_FLINK": "true"
 		}
 	},
+	"containerEnv": { 
+		"GIT_EMAIL": "cody.nolf@cryptndev.com",
+		"GIT_USER": "Cody Nolf"
+	},
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
+	  ],
 	"customizations":
     {
         "vscode": {
             "extensions": [
                 "vscjava.vscode-java-pack",
-		//"scalameta.metals",
-                "ms-azuretools.vscode-docker",
+				"scalameta.metals",
                 "ms-vscode-remote.remote-containers",
                 "scala-lang.scala",
                 "ms-vscode-remote.remote-wsl"
             ]
         }
     },
-    "postCreateCommand": "java -version && sbt -version && scala -version && sbt new codynolf/scala-starter.g8 --name='${templateOption:projectname}' && echo '${templateOption:projectname}'"
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Use 'postCreateCommand' to run commands after the container is created.
-	//"postCreateCommand": "java -version",
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	//"remoteUser": "vscode"
+	"privileged": true,
+    //"postCreateCommand": "java -version && sbt -version && scala -version && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
 }

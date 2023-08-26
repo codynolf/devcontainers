@@ -1,18 +1,14 @@
-#
-# Scala and sbt Dockerfile
-#
-# https://github.com/sbt/docker-sbt
-#
-
 # Pull base image
 ARG BASE_IMAGE_TAG
 FROM eclipse-temurin:${BASE_IMAGE_TAG:-11.0.16.1_1-jdk}
 
 # Env variables
 ARG SCALA_VERSION
-ENV SCALA_VERSION ${SCALA_VERSION:-3.2.2}
+ENV SCALA_VERSION ${SCALA_VERSION:-2.12.17}
 ARG SBT_VERSION
 ENV SBT_VERSION ${SBT_VERSION:-1.8.2}
+ARG FLINK_VERSION
+ENV FLINK_VERSION ${FLINK_VERSION:-1.17.1}
 ARG USER_ID
 ENV USER_ID ${USER_ID:-1001}
 ARG GROUP_ID
@@ -47,7 +43,14 @@ RUN \
   apt-get update && \
   apt-get install git -y && \
   apt-get install rpm -y && \
+  apt-get install systemd -y && \
   rm -rf /var/lib/apt/lists/*
+
+# install flink
+RUN wget -qO- https://dlcdn.apache.org/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_2.12.tgz | tar -xzf -
+ENV PATH "$PATH:/flink-$FLINK_VERSION/bin"
+
+# install nordvpn
 
 # Symlink java to have it available on sbtuser's PATH
 RUN ln -s /opt/java/openjdk/bin/java /usr/local/bin/java
@@ -77,6 +80,7 @@ RUN \
   rm -rf /tmp/..?* /tmp/.[!.]* * && \
   ln -s /home/sbtuser/.cache /root/.cache && \
   ln -s /home/sbtuser/.sbt /root/.sbt && \
+  touch /home/sbtuser/.sbt/.credentials && \
   if [ -d "/home/sbtuser/.ivy2" ]; then ln -s /home/sbtuser/.ivy2 /root/.ivy2; fi
 
 # Switch working directory back to root
@@ -86,3 +90,5 @@ RUN \
 WORKDIR /root
 
 CMD sbt
+
+FROM ghcr.io/bubuntux/nordvpn
