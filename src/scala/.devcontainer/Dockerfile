@@ -50,8 +50,6 @@ RUN \
 RUN wget -qO- https://dlcdn.apache.org/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_2.12.tgz | tar -xzf -
 ENV PATH "$PATH:/flink-$FLINK_VERSION/bin"
 
-# install nordvpn
-
 # Symlink java to have it available on sbtuser's PATH
 RUN ln -s /opt/java/openjdk/bin/java /usr/local/bin/java
 
@@ -83,6 +81,24 @@ RUN \
   touch /home/sbtuser/.sbt/.credentials && \
   if [ -d "/home/sbtuser/.ivy2" ]; then ln -s /home/sbtuser/.ivy2 /root/.ivy2; fi
 
+# install and connect to nordvpn
+ARG NORDVPN_VERSION=3.16.2
+
+RUN apt-get update -y && \
+    apt-get install -y curl iputils-ping libc6 wireguard && \
+    curl https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb --output /tmp/nordrepo.deb && \
+    apt-get install -y /tmp/nordrepo.deb && \
+    apt-get update -y && \
+    apt-get install -y nordvpn${NORDVPN_VERSION:+=$NORDVPN_VERSION} && \
+    apt-get remove -y nordvpn-release && \
+    apt-get autoremove -y && \
+    apt-get autoclean -y && \
+    rm -rf \
+      /tmp/* \
+      /var/cache/apt/archives/* \
+      /var/lib/apt/lists/* \
+      /var/tmp/*
+
 # Switch working directory back to root
 ## Users wanting to use this container as non-root should combine the two following arguments
 ## -u sbtuser
@@ -90,5 +106,3 @@ RUN \
 WORKDIR /root
 
 CMD sbt
-
-FROM ghcr.io/bubuntux/nordvpn
