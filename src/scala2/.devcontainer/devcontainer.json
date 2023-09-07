@@ -1,0 +1,32 @@
+{
+	"name": "Scala 2",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"FLINK_INSTALL": "true"
+		}
+	},
+	"containerEnv": { 
+		"GIT_EMAIL": "",
+		"GIT_USER": ""
+	},
+	/*
+	 * WSL mounts
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
+	  ],*/
+	"customizations":
+    {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+				"scalameta.metals",
+                "ms-vscode-remote.remote-containers",
+                "scala-lang.scala",
+                "ms-vscode-remote.remote-wsl"
+            ]
+        }
+    },
+    "postCreateCommand": "java -version && sbt -version && scala -version && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+}

@@ -1,15 +1,14 @@
 {
-	"name": "Scala",
+	"name": "Scala 3",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"INSTALL_SBT": "true",
-			"INSTALL_FLINK": "true"
+			"FLINK_INSTALL": "true"
 		}
 	},
 	"containerEnv": { 
-		"GIT_EMAIL": "cody.nolf@cryptndev.com",
-		"GIT_USER": "Cody Nolf"
+		"GIT_EMAIL": "",
+		"GIT_USER": ""
 	},
 	/*
 	 * WSL mounts
@@ -29,6 +28,5 @@
             ]
         }
     },
-	"privileged": true,
     "postCreateCommand": "java -version && sbt -version && scala -version && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
 }

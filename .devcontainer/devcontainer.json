@@ -1,16 +1,17 @@
-// More info: https://containers.dev/implementors/json_reference/
 {
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:0-18",
-	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	"name": "Dev Containers",
+	"image": "ubuntu:latest",
+
+	// Configure tool-specific properties.
+	"containerEnv": { 
+		"GIT_EMAIL": "codynolf@outlook.com", //update with yours :)
+		"GIT_USER": "codynolf" // update with yours :)
 	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"mads-hartmann.bash-ide-vscode",
-				"dbaeumer.vscode-eslint"
-			]
-		}
-	},
-	"postCreateCommand": "npm install -g @devcontainers/cli"
+	/*
+	 * WSL mounts
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
+	  ],*/
+    "postCreateCommand": "apt update && apt install -y git && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
 }

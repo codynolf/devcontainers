@@ -7,6 +7,7 @@ ARG SCALA_VERSION
 ENV SCALA_VERSION ${SCALA_VERSION:-2.12.17}
 ARG SBT_VERSION
 ENV SBT_VERSION ${SBT_VERSION:-1.8.2}
+ARG FLINK_INSTALL
 ARG FLINK_VERSION
 ENV FLINK_VERSION ${FLINK_VERSION:-1.17.1}
 ARG USER_ID
@@ -47,7 +48,7 @@ RUN \
   rm -rf /var/lib/apt/lists/*
 
 # install flink
-RUN wget -qO- https://dlcdn.apache.org/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_2.12.tgz | tar -xzf -
+RUN if [["$FLINK_INSTALL" = "true"]]; then wget -qO- https://dlcdn.apache.org/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_2.12.tgz | tar -xzf -; else echo ""; fi
 ENV PATH "$PATH:/flink-$FLINK_VERSION/bin"
 
 # Symlink java to have it available on sbtuser's PATH
@@ -80,24 +81,6 @@ RUN \
   ln -s /home/sbtuser/.sbt /root/.sbt && \
   touch /home/sbtuser/.sbt/.credentials && \
   if [ -d "/home/sbtuser/.ivy2" ]; then ln -s /home/sbtuser/.ivy2 /root/.ivy2; fi
-
-# install and connect to nordvpn
-ARG NORDVPN_VERSION=3.16.2
-
-RUN apt-get update -y && \
-    apt-get install -y curl iputils-ping libc6 wireguard && \
-    curl https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb --output /tmp/nordrepo.deb && \
-    apt-get install -y /tmp/nordrepo.deb && \
-    apt-get update -y && \
-    apt-get install -y nordvpn${NORDVPN_VERSION:+=$NORDVPN_VERSION} && \
-    apt-get remove -y nordvpn-release && \
-    apt-get autoremove -y && \
-    apt-get autoclean -y && \
-    rm -rf \
-      /tmp/* \
-      /var/cache/apt/archives/* \
-      /var/lib/apt/lists/* \
-      /var/tmp/*
 
 # Switch working directory back to root
 ## Users wanting to use this container as non-root should combine the two following arguments

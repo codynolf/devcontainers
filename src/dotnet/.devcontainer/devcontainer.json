@@ -1,0 +1,24 @@
+{
+	"name": "aspnet",
+    "build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"REDIS_INSTALL": "true"
+		}
+	},
+	"containerEnv": {
+		"REDIS_CONNECTION":"localhost",
+		"GIT_EMAIL": "",
+		"GIT_USER": ""
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csdevkit",
+				"patcx.vscode-nuget-gallery"
+			]
+		}
+	},
+	"postStartCommand": "sudo /etc/init.d/redis-server start",
+	"postCreateCommand": "dotnet restore && dotnet dev-certs https --trust && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+}
