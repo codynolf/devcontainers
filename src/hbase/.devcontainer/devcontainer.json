@@ -1,0 +1,20 @@
+{
+	"name": "Hbase",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"HBASE_VERSION":"2.5.5"
+		}
+	},
+	"containerEnv": { 
+		"GIT_EMAIL": "",
+		"GIT_USER": ""
+	},
+	/*
+	 * WSL mounts
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
+	  ],*/
+	"postCreateCommand": "git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\" && echo \"run /hbase/hbase-2.5.5/bin/start-hbase.sh to start hbase server.\""
+}
