@@ -3,7 +3,7 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"FLINK_INSTALL": "true"
+			"FLINK_INSTALL": "false"
 		}
 	},
 	"containerEnv": { 
@@ -11,7 +11,7 @@
 		"GIT_USER": ""
 	},
 	/*
-	 * WSL mounts
+	 * Host mounts
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
 		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
@@ -24,8 +24,15 @@
 				"scalameta.metals",
                 "ms-vscode-remote.remote-containers",
                 "scala-lang.scala",
-                "ms-vscode-remote.remote-wsl"
-            ]
+                "ms-vscode-remote.remote-wsl",
+				"xr0master.webstorm-intellij-darcula-theme",
+				"BrennonDenny.vsc-jetbrains-icons-enhanced",
+				"k--kato.intellij-idea-keybindings"
+            ],
+			"settings": {
+				"workbench.colorTheme": "Webstorm IntelliJ Darcula Theme",
+				"workbench.iconTheme": "vsc-jetbrains-icons-enhanced"
+			}
         }
     },
     "postCreateCommand": "java -version && sbt -version && scala -version && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
