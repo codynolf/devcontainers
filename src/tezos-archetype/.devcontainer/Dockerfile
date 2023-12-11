@@ -29,3 +29,6 @@ RUN completium-cli set endpoint mockup
 # Set Tezos Environment to Ghostnet
 #RUN octez-client --endpoint 'https://ghostnet.ecadinfra.com config update'
 #RUN export TEZOS_CLIENT_UNSAFE_DISABLE_DISCLAIMER=yes
+
+# Install git
+RUN apt-get install git -y
