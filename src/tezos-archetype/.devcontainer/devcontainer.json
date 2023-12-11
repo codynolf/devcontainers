@@ -1,0 +1,38 @@
+{
+	"name": "tezos.archetype",
+	"build": {
+		"dockerfile":"Dockerfile",
+		"args": {
+			"NODEJS_MAJOR_VERSION": "20"
+		}
+	},
+	"containerEnv": {
+		"GIT_EMAIL": "cody.nolf@cryptndev.com",
+		"GIT_USER": "Cody Nolf"
+    },
+	"mounts": [
+        // WSL Mounts
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly"
+    ],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"GitHub.copilot",
+                "serokell-io.michelson-debugger",
+                "nomadiclabs.vscode-michelson",
+                "edukera.archetype",
+                "baking-bad.michelson",
+				"PKief.material-icon-theme"
+            ],
+            "settings": {
+				"workbench.iconTheme": "material-icon-theme",
+				"workbench.colorTheme": "Default Dark+",
+				"material-icon-theme.files.associations": {
+					"*.arl": "../../arl"
+				}
+            }
+		}
+	},
+	"remoteUser": "root",
+	"postAttachCommand": "cp arl.svg /root/.vscode-server/extensions"
+}

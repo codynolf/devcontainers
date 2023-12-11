@@ -1,0 +1,29 @@
+{
+	"name": "Rust Training",
+	"image": "rust:bookworm",
+	"containerEnv": { 
+		"GIT_EMAIL": "codynolf@outlook.com",
+		"GIT_USER": "cody.nolf"
+	},
+	 //* WSL mounts
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly"
+	  ],
+	"customizations":
+    {
+        "vscode": {
+            "extensions": [
+                "GitHub.github-vscode-theme",
+				"PKief.material-icon-theme",
+                "rust-lang.rust-analyzer",
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ],
+			"settings": {
+				"workbench.colorTheme": "GitHub Dark",
+				"workbench.iconTheme": "material-icon-theme"
+			}
+        }
+    },
+    "postStartCommand": "rustc --version && rustup update && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+}
