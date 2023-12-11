@@ -12,16 +12,16 @@
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
 		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
-	  ],*/
+	],*/
 	"customizations":
-    {
-        "vscode": {
-            "extensions": [
-                "ms-vscode-remote.remote-containers",
-                "ms-vscode-remote.remote-wsl"
-            ]
-        }
-    },
+	{
+		"vscode": {
+			"extensions": [
+				"ms-vscode-remote.remote-containers",
+				"ms-vscode-remote.remote-wsl"
+			]
+		}
+	},
 	"privileged": true,
-    "postCreateCommand": "git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+	"postCreateCommand": "git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
 }

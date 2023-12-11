@@ -1,6 +1,6 @@
 {
 	"name": "aspnet",
-    "build": {
+	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
 			"REDIS_INSTALL": "true"
