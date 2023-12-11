@@ -7,11 +7,9 @@
 		"GIT_EMAIL": "codynolf@outlook.com", //update with yours :)
 		"GIT_USER": "codynolf" // update with yours :)
 	},
-	/*
-	 * WSL mounts
+	//WSL mounts
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
-		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
-	  ],*/
+	],
     "postAttachCommand": "apt update && apt install -y git && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
 }
