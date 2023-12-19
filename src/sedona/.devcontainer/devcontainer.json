@@ -8,11 +8,10 @@
 		"GIT_USER": ""
 	},
 	"appPort": [ "8888:8888", "8080:8080", "8081:8081" ],
-	/*
-	 * WSL mounts
+	//WSL mounts
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
 		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
-	],*/
+	],
 	"postCreateCommand": "git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
 }

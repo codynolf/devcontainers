@@ -10,21 +10,18 @@
 		"GIT_EMAIL": "",
 		"GIT_USER": ""
 	},
-	/*
-	 * Host mounts
+	//Host mounts
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
 		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
-	],*/
+	],
 	"customizations":
 	{
 		"vscode": {
 			"extensions": [
 				"vscjava.vscode-java-pack",
 				"scalameta.metals",
-				"ms-vscode-remote.remote-containers",
 				"scala-lang.scala",
-				"ms-vscode-remote.remote-wsl",
 				"xr0master.webstorm-intellij-darcula-theme",
 				"BrennonDenny.vsc-jetbrains-icons-enhanced",
 				"k--kato.intellij-idea-keybindings"
