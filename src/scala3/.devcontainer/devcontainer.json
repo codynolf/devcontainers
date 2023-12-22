@@ -21,9 +21,11 @@
 			"extensions": [
 				"vscjava.vscode-java-pack",
 				"scalameta.metals",
+				"ms-vscode-remote.remote-containers",
 				"scala-lang.scala",
+				"ms-vscode-remote.remote-wsl",
 				"xr0master.webstorm-intellij-darcula-theme",
-				"BrennonDenny.vsc-jetbrains-icons-enhanced",
+				"chadalen.vscode-jetbrains-icon-theme",
 				"k--kato.intellij-idea-keybindings"
 			],
 			"settings": {
