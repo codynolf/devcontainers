@@ -1,0 +1,31 @@
+{
+	"name": "C++",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"imageVariant": "ubuntu-24.04",
+			"reinstallCmakeVersionFromSource": "none"
+		}
+	},
+    "containerEnv": {
+		"GIT_EMAIL": "codynolf@outlook.com",
+		"GIT_USER": "codynolf"
+		
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"vscode-icons-team.vscode-icons",
+				"GitHub.copilot",
+				"GitHub.copilot-chat"
+			],
+			"settings": {
+				"workbench.colorTheme": "Visual Studio Dark - C++",
+				"workbench.iconTheme": "vscode-icons"
+			}
+		}
+	},
+	"postCreateCommand": "gcc -v && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+}
