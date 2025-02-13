@@ -1,0 +1,19 @@
+{
+	"name": "Geomesa",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"HBASE_VERSION":"2.4.11"
+		}
+	},
+	"containerEnv": { 
+		"GIT_EMAIL": "",
+		"GIT_USER": ""
+	},
+	//WSL mounts
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/share,target=/home/${localEnv:USER}/share"
+	],
+	"postAttachCommand": "git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+}

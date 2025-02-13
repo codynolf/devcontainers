@@ -1,0 +1,19 @@
+{
+	"name": "C++",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+    "containerEnv": {
+		"GIT_EMAIL": "",
+		"GIT_USER": ""
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"vscode-icons-team.vscode-icons"
+			]
+		}
+	},
+	"postCreateCommand": "gcc -v",
+}

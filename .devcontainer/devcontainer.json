@@ -4,8 +4,8 @@
 
 	// Configure tool-specific properties.
 	"containerEnv": { 
-		"GIT_EMAIL": "codynolf@outlook.com", //update with yours :)
-		"GIT_USER": "codynolf" // update with yours :)
+		"GIT_EMAIL": "cody.nolf@cnh.com", //update with yours :)
+		"GIT_USER": "cody.nolf" // update with yours :)
 	},
 	//WSL mounts
 	"mounts": [
