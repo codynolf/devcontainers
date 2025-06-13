@@ -59,3 +59,23 @@ sed -i '/#scala3 new project/,/export -f newscala3/d' $bashrc_full
 # Write function to bashrc
 echo "$scala3_function" >> $bashrc_full
 
+
+# .NET
+dotnet_rel="./src/dotnet/.devcontainer"
+dotnet_full=$(realpath "$dotnet_rel")
+dotnet_function=$(cat <<EOF
+#dotnet new project
+newdotnet() {
+    mkdir \$1
+    cp -rp $dotnet_full ./\$1
+    echo "Successfully created new .NET project: \$1"
+}
+export -f newdotnet
+EOF
+)
+
+# Remove existing alias function if it exists
+sed -i '/#dotnet new project/,/export -f newdotnet/d' $bashrc_full
+# Write function to bashrc
+echo "$dotnet_function" >> $bashrc_full
+

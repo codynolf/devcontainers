@@ -1,24 +1,21 @@
 {
-	"name": "aspnet",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"REDIS_INSTALL": "true"
-		}
-	},
-	"containerEnv": {
-		"REDIS_CONNECTION":"localhost",
-		"GIT_EMAIL": "",
-		"GIT_USER": ""
-	},
+	"name": ".net 8.0",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/.gitconfig,target=/root/.gitconfig,readonly"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"vscode-icons-team.vscode-icons",
 				"ms-dotnettools.csdevkit",
 				"patcx.vscode-nuget-gallery"
-			]
+			],
+			"settings": {
+				"workbench.colorTheme": "Visual Studio Dark - C++",
+				"workbench.iconTheme": "vscode-icons"
+			}
 		}
-	},
-	"postStartCommand": "sudo /etc/init.d/redis-server start",
-	"postCreateCommand": "dotnet restore && dotnet dev-certs https --trust && git config --global user.email \"$GIT_EMAIL\" && git config --global user.name \"$GIT_USER\""
+	}
 }
