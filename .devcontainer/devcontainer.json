@@ -4,8 +4,8 @@
 		"dockerfile": "Dockerfile"
 	},
 	"mounts": [
-		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
-		"type=bind,source=/home/${localEnv:USER}/.gitconfig,target=/root/.gitconfig,readonly"
+		"type=bind,source=${localEnv:HOME}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,readonly"
 	],
 	"customizations": {
 		"vscode": {
