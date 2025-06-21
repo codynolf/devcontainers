@@ -1,8 +1,21 @@
 {
 	"name": "Dev Containers",
-	"image": "alpine/git:latest",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
 		"type=bind,source=/home/${localEnv:USER}/.gitconfig,target=/root/.gitconfig,readonly"
-	]
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"shd101wyy.markdown-preview-enhanced"
+			],
+			"settings": {
+				"workbench.colorTheme": "Visual Studio Dark",
+				"workbench.iconTheme": "vscode-icons"
+			}
+		}
+	}
 }

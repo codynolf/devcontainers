@@ -13,7 +13,7 @@
 				"patcx.vscode-nuget-gallery"
 			],
 			"settings": {
-				"workbench.colorTheme": "Visual Studio Dark - C++",
+				"workbench.colorTheme": "Visual Studio Dark",
 				"workbench.iconTheme": "vscode-icons"
 			}
 		}

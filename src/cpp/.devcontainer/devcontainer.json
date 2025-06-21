@@ -7,11 +7,10 @@
 			"reinstallCmakeVersionFromSource": "none"
 		}
 	},
-    "containerEnv": {
-		"GIT_EMAIL": "codynolf@outlook.com",
-		"GIT_USER": "codynolf"
-		
-	},
+  "mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
+		"type=bind,source=/home/${localEnv:USER}/.gitconfig,target=/root/.gitconfig,readonly"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
