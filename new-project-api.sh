@@ -4,6 +4,7 @@ bash_aliases_full=$(realpath ~/.bash_aliases)
 # create the .bash_aliases file if it doesn't exist
 if [ ! -f "$bash_aliases_full" ]; then
     touch "$bash_aliases_full"
+fi
 
 # c++
 cpp_rel="./src/cpp/.devcontainer"
