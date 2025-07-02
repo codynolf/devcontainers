@@ -30,6 +30,9 @@ fi
 
 log_info "Reading project configurations from $PROJECTS_JSON_FILE..."
 
+# Create a temporary file for the new content
+temp_file=$(mktemp)
+
 # Read projects from JSON file and create functions
 while IFS= read -r project_data; do
     name=$(echo "$project_data" | jq -r '.name')
@@ -47,17 +50,18 @@ new$name() {
     echo "Successfully created new $name project: \$1"
 }
 export -f new$name
+
 EOF
 )
     
     log_info "Processing $name project..."
     
-    # Remove existing function if it exists
-    sed -i "/# $name new project/,/export -f new$name/d" "$bash_aliases_full"
-    
-    # Write function to bash_aliases
-    echo "$function_content" >> "$bash_aliases_full"
+    # Write function to temporary file
+    echo "$function_content" >> "$temp_file"
     
 done < <(jq -c '.projects[]' "$PROJECTS_JSON_FILE")
+
+# Replace the aliases file with the new content
+mv "$temp_file" "$bash_aliases_full"
 
 log_success "Successfully updated .bash_aliases with project functions"
