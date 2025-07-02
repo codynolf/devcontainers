@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "name": "cpp",
+      "path": "./src/cpp/.devcontainer"
+    },
+    {
+      "name": "scala2",
+      "path": "./src/scala2/.devcontainer"
+    },
+    {
+      "name": "scala3",
+      "path": "./src/scala3/.devcontainer"
+    },
+    {
+      "name": "dotnet",
+      "path": "./src/dotnet/.devcontainer"
+    }
+  ]
+}

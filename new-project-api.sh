@@ -1,86 +1,63 @@
 #!/bin/bash
+
+set -e  # Exit on any error
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Source logging functions
+source "$SCRIPT_DIR/logging.sh"
+# Set JSON file path relative to script location
+PROJECTS_JSON_FILE="$SCRIPT_DIR/projects.json"
+
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+    log_warn "jq is required but not installed. Installing jq..."
+    sudo apt-get update && sudo apt-get install jq -y
+fi
+
+# Check if JSON file exists
+if [ ! -f "$PROJECTS_JSON_FILE" ]; then
+    log_error "$PROJECTS_JSON_FILE not found"
+    exit 1
+fi
+
 bash_aliases_full=$(realpath ~/.bash_aliases)
 
-# create the .bash_aliases file if it doesn't exist
+# Create the .bash_aliases file if it doesn't exist
 if [ ! -f "$bash_aliases_full" ]; then
     touch "$bash_aliases_full"
 fi
 
-# c++
-cpp_rel="./src/cpp/.devcontainer"
-cpp_full=$(realpath "$cpp_rel")
-cpp_function=$(cat <<EOF
-#c++ new project
-newcpp() {
+log_info "Reading project configurations from $PROJECTS_JSON_FILE..."
+
+# Read projects from JSON file and create functions
+while IFS= read -r project_data; do
+    name=$(echo "$project_data" | jq -r '.name')
+    path=$(echo "$project_data" | jq -r '.path')
+    
+    # Resolve the full path
+    full_path=$(realpath "$path")
+    
+    # Create the function content
+    function_content=$(cat <<EOF
+# $name new project
+new$name() {
     mkdir \$1
-    cp -rp $cpp_full ./\$1
-    echo "Successfully created new c++ project: \$1"
+    cp -rp $full_path ./\$1
+    echo "Successfully created new $name project: \$1"
 }
-export -f newcpp
+export -f new$name
 EOF
 )
+    
+    log_info "Processing $name project..."
+    
+    # Remove existing function if it exists
+    sed -i "/# $name new project/,/export -f new$name/d" "$bash_aliases_full"
+    
+    # Write function to bash_aliases
+    echo "$function_content" >> "$bash_aliases_full"
+    
+done < <(jq -c '.projects[]' "$PROJECTS_JSON_FILE")
 
-# Remove existing alias function if it exists
-sed -i '/#c++ new project/,/export -f newcpp/d' $bash_aliases_full
-# Write function to bash_aliases
-echo "$cpp_function" >> $bash_aliases_full
-
-
-# scala2
-scala2_rel="./src/scala2/.devcontainer"
-scala2_full=$(realpath "$scala2_rel")
-scala2_function=$(cat <<EOF
-#scala2 new project
-newscala2() {
-    mkdir \$1
-    cp -rp $scala2_full ./\$1
-    echo "Successfully created new scala 2 project: \$1"
-}
-export -f newscala2
-EOF
-)
-
-# Remove existing alias function if it exists
-sed -i '/#scala2 new project/,/export -f newscala2/d' $bash_aliases_full
-# Write function to bash_aliases
-echo "$scala2_function" >> $bash_aliases_full
-
-# scala3
-scala3_rel="./src/scala3/.devcontainer"
-scala3_full=$(realpath "$scala3_rel")
-scala3_function=$(cat <<EOF
-#scala3 new project
-newscala3() {
-    mkdir \$1
-    cp -rp $scala3_full ./\$1
-    echo "Successfully created new scala 3 project: \$1"
-}
-export -f newscala3
-EOF
-)
-
-# Remove existing alias function if it exists
-sed -i '/#scala3 new project/,/export -f newscala3/d' $bash_aliases_full
-# Write function to bash_aliases
-echo "$scala3_function" >> $bash_aliases_full
-
-
-# .NET
-dotnet_rel="./src/dotnet/.devcontainer"
-dotnet_full=$(realpath "$dotnet_rel")
-dotnet_function=$(cat <<EOF
-#dotnet new project
-newdotnet() {
-    mkdir \$1
-    cp -rp $dotnet_full ./\$1
-    echo "Successfully created new .NET project: \$1"
-}
-export -f newdotnet
-EOF
-)
-
-# Remove existing alias function if it exists
-sed -i '/#dotnet new project/,/export -f newdotnet/d' $bash_aliases_full
-# Write function to bash_aliases
-echo "$dotnet_function" >> $bash_aliases_full
-
+log_success "Successfully updated .bash_aliases with project functions"
