@@ -1,5 +1,5 @@
 #!/bin/bash
-bashrc_full=$(realpath ~/.bashrc)
+bash_aliases_full=$(realpath ~/.bash_aliases)
 
 # c++
 cpp_rel="./src/cpp/.devcontainer"
@@ -16,9 +16,9 @@ EOF
 )
 
 # Remove existing alias function if it exists
-sed -i '/#c++ new project/,/export -f newcpp/d' $bashrc_full
-# Write function to bashrc
-echo "$cpp_function" >> $bashrc_full
+sed -i '/#c++ new project/,/export -f newcpp/d' $bash_aliases_full
+# Write function to bash_aliases
+echo "$cpp_function" >> $bash_aliases_full
 
 
 # scala2
@@ -36,9 +36,9 @@ EOF
 )
 
 # Remove existing alias function if it exists
-sed -i '/#scala2 new project/,/export -f newscala2/d' $bashrc_full
-# Write function to bashrc
-echo "$scala2_function" >> $bashrc_full
+sed -i '/#scala2 new project/,/export -f newscala2/d' $bash_aliases_full
+# Write function to bash_aliases
+echo "$scala2_function" >> $bash_aliases_full
 
 # scala3
 scala3_rel="./src/scala3/.devcontainer"
@@ -55,9 +55,9 @@ EOF
 )
 
 # Remove existing alias function if it exists
-sed -i '/#scala3 new project/,/export -f newscala3/d' $bashrc_full
-# Write function to bashrc
-echo "$scala3_function" >> $bashrc_full
+sed -i '/#scala3 new project/,/export -f newscala3/d' $bash_aliases_full
+# Write function to bash_aliases
+echo "$scala3_function" >> $bash_aliases_full
 
 
 # .NET
@@ -75,7 +75,7 @@ EOF
 )
 
 # Remove existing alias function if it exists
-sed -i '/#dotnet new project/,/export -f newdotnet/d' $bashrc_full
-# Write function to bashrc
-echo "$dotnet_function" >> $bashrc_full
+sed -i '/#dotnet new project/,/export -f newdotnet/d' $bash_aliases_full
+# Write function to bash_aliases
+echo "$dotnet_function" >> $bash_aliases_full
 
