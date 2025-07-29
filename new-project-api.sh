@@ -45,8 +45,10 @@ while IFS= read -r project_data; do
     function_content=$(cat <<EOF
 # $name new project
 new$name() {
-    mkdir \$1
-    cp -rp $full_path ./\$1
+    if [ ! -d "\$1" ]; then
+        mkdir "\$1"
+    fi
+    cp -rp $full_path ./"\$1"
     echo "Successfully created new $name project: \$1"
 }
 export -f new$name
