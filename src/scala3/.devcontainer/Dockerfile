@@ -4,9 +4,9 @@ FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 
 # Env variables
 ARG SCALA_VERSION
-ENV SCALA_VERSION ${SCALA_VERSION:-3.3.0}
+ENV SCALA_VERSION ${SCALA_VERSION:-3.3.1}
 ARG SBT_VERSION
-ENV SBT_VERSION ${SBT_VERSION:-1.8.2}
+ENV SBT_VERSION ${SBT_VERSION:-1.10.11}
 ARG FLINK_INSTALL
 ARG FLINK_VERSION
 ENV FLINK_VERSION ${FLINK_VERSION:-1.17.1}
@@ -15,9 +15,19 @@ ENV USER_ID ${USER_ID:-1001}
 ARG GROUP_ID
 ENV GROUP_ID ${GROUP_ID:-1001}
 
-# Install sbt
 RUN \
-  curl -fsL "https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz" | tar xfz - -C /usr/share && \
+  apt-get update && \
+  apt-get install git -y && \
+  apt-get install rpm -y && \
+  apt-get install systemd -y && \
+  apt-get install curl -y && \
+  apt-get install tar -y && \
+  rm -rf /var/lib/apt/lists/*
+
+# Install sbt
+RUN mkdir -p /usr/share && \
+  curl -fsL "https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz" -o /tmp/sbt.tgz && \
+  tar xfz /tmp/sbt.tgz -C /usr/share && \
   chown -R root:root /usr/share/sbt && \
   chmod -R 755 /usr/share/sbt && \
   ln -s /usr/share/sbt/bin/sbt /usr/local/bin/sbt
@@ -39,14 +49,6 @@ RUN \
   esac && \
   scala -nocompdaemon test.scala && rm test.scala
 
-# Install git and rpm for sbt-native-packager (see https://github.com/sbt/docker-sbt/pull/114)
-RUN \
-  apt-get update && \
-  apt-get install git -y && \
-  apt-get install rpm -y && \
-  apt-get install systemd -y && \
-  rm -rf /var/lib/apt/lists/*
-
 # install flink
 RUN if [["$FLINK_INSTALL" = "true"]]; then wget -qO- https://dlcdn.apache.org/flink/flink-$FLINK_VERSION/flink-$FLINK_VERSION-bin-scala_2.12.tgz | tar -xzf -; else echo ""; fi
 ENV PATH "$PATH:/flink-$FLINK_VERSION/bin"
@@ -62,15 +64,14 @@ USER sbtuser
 WORKDIR /home/sbtuser
 
 # Prepare sbt (warm cache)
-RUN \
-  sbt sbtVersion && \
-  mkdir -p project && \
-  echo "scalaVersion := \"${SCALA_VERSION}\"" > build.sbt && \
-  echo "sbt.version=${SBT_VERSION}" > project/build.properties && \
-  echo "// force sbt compiler-bridge download" > project/Dependencies.scala && \
-  echo "case object Temp" > Temp.scala && \
-  sbt compile && \
-  rm -r project && rm build.sbt && rm Temp.scala && rm -r target
+RUN mkdir -p project && \
+    echo "scalaVersion := \"${SCALA_VERSION}\"" > build.sbt && \
+    echo "sbt.version=${SBT_VERSION}" > project/build.properties && \
+    echo "// force sbt compiler-bridge download" > project/Dependencies.scala && \
+    echo "case object Temp" > Temp.scala && \
+    sbt sbtVersion && \
+    sbt compile && \
+    rm -r project && rm build.sbt && rm Temp.scala && rm -r target
 
 # Link everything into root as well
 # This allows users of this container to choose, whether they want to run the container as sbtuser (non-root) or as root
