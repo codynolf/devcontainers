@@ -1,6 +1,6 @@
 # Pull base image
 ARG BASE_IMAGE_TAG
-FROM eclipse-temurin:${BASE_IMAGE_TAG:-11.0.16.1_1-jdk}
+FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 
 # Env variables
 ARG SCALA_VERSION
