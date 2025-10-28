@@ -2,10 +2,6 @@
 
 This repository is for managing different tech stack development containers. There is also a new project api script to help facilitate new projects with their development containers. 
 
-# Contributing
-
-Ironically this project also has a development container. 😀
-
 # Tech Stacks
 - c++
 - dotnet
