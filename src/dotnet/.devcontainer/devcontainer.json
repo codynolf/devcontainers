@@ -1,6 +1,6 @@
 {
-	"name": ".net 8.0",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+	"name": ".NET",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:dev-10.0-noble",
 	"mounts": [
 		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly",
 		"type=bind,source=/home/${localEnv:USER}/.gitconfig,target=/root/.gitconfig,readonly"
